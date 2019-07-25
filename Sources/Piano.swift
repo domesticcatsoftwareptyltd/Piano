@@ -60,7 +60,7 @@ public class Piano {
             Piano.default.audioPlayerSessionCategory = newValue
         }
     }
-    private var audioPlayerSessionCategory = AVAudioSessionCategoryAmbient
+    private var audioPlayerSessionCategory = convertFromAVAudioSessionCategory(AVAudioSession.Category.ambient)
 
     private init() { }
     
@@ -115,7 +115,7 @@ public class Piano {
             return
         }
         do {
-            try AVAudioSession.sharedInstance().setCategory(audioPlayerSessionCategory)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: audioPlayerSessionCategory))
             try AVAudioSession.sharedInstance().setActive(true)
             player = try AVAudioPlayer(data: asset.data, fileTypeHint: nil)
             if let player = player {
@@ -145,7 +145,7 @@ public class Piano {
             return
         }
         do {
-            try AVAudioSession.sharedInstance().setCategory(audioPlayerSessionCategory)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: audioPlayerSessionCategory))
             try AVAudioSession.sharedInstance().setActive(true)
             player = try AVAudioPlayer(contentsOf: url)
             if let player = player {
@@ -170,7 +170,7 @@ public class Piano {
     ///   - completion: completion handler
     private func playAudio(from url: URL, completion: (() -> Void)?) {
         do {
-            try AVAudioSession.sharedInstance().setCategory(audioPlayerSessionCategory)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: audioPlayerSessionCategory))
             try AVAudioSession.sharedInstance().setActive(true)
             player = try AVAudioPlayer(contentsOf: url)
             if let player = player {
@@ -384,4 +384,9 @@ public class Piano {
         }
         return results
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
+	return input.rawValue
 }

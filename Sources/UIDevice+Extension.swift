@@ -48,7 +48,7 @@ public extension UIDevice {
             return (0, 0)
         }
         let numbers = platform.filter { "0123456789,".contains($0) }
-        if let commaIndex = numbers.index(of: ",") {
+        if let commaIndex = numbers.firstIndex(of: ",") {
             let firstNumber = numbers[numbers.startIndex..<commaIndex]
             let afterCommaIndex = numbers.index(after: commaIndex)
             let secondNumber = numbers[afterCommaIndex..<numbers.endIndex] // endIndex is an index after the last index
@@ -61,7 +61,7 @@ public extension UIDevice {
     }
     
     // Returns a BOOL value representing whether the current device has a Taptic Engine or not
-    public var hasTapticEngine: Bool {
+    var hasTapticEngine: Bool {
         get {
             let device = getDeviceGenerationVersion()
             if device.generation == 8 {
@@ -79,7 +79,7 @@ public extension UIDevice {
     }
     
     // Returns a BOOL value representing whether the current device has a Taptic Engine with Haptic Feedback support
-    public var hasHapticFeedback: Bool {
+    var hasHapticFeedback: Bool {
         get {
             let device = getDeviceGenerationVersion()
             if device.generation >= 9 {
